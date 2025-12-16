@@ -1,0 +1,801 @@
+{
+  "voice_id": "English_Insightful_Speaker",
+  "g_googledrive_dir": "1fQNNQClgmLUhRNYG0srYH14cRtIr07IO",
+  "path_name": "contrato-milionario-entre-viviane-barci-e-daniel-vorcaro",
+  "storyboard": {
+    "social_title": "🚨 ESCÂNDALO DE R$ 129 MILHÕES - O Contrato Secreto da Esposa de Moraes",
+    "shortVideo": {
+      "introducao": {
+        "sections": [
+          {
+            "id": "1c07d4e0-3424-4c80-9c58-b10358bb2a37",
+            "layout": "referencia_fullscreen",
+            "pose": "observer_reading_phone",
+            "speech": "",
+            "audioMode": "reference_focus",
+            "references": [
+              {
+                "name": "[GANCHO]video-referencia_01.mp4",
+                "slot": "main",
+                "priority": "primary",
+                "kind": "video",
+                "keepAudio": true,
+                "relevantAudio": true,
+                "duration": 13.959999999999999,
+                "description": "GANCHO",
+                "croped": false,
+                "expanded": true
+              }
+            ]
+          },
+          {
+            "id": "01fbbc88-4d06-40a1-bef8-83d524b7adf7",
+            "layout": "referencia_fullscreen",
+            "pose": "observer_talking_default",
+            "speech": "",
+            "audioMode": "reference_focus",
+            "references": [
+              {
+                "name": "intro-default_01.mp4",
+                "slot": "main",
+                "priority": "primary",
+                "kind": "video",
+                "keepAudio": true,
+                "relevantAudio": true,
+                "duration": 6.9,
+                "croped": false,
+                "expanded": false
+              }
+            ]
+          },
+          {
+            "id": "b125e500-8c3b-4922-9662-cbfd77ad69fa",
+            "layout": "observer_top_reference_bottom_vertical",
+            "pose": "observer_reading_phone",
+            "speech": "",
+            "audioMode": "reference_focus",
+            "references": [
+              {
+                "name": "[INTRO]video-referencia_02.mp4",
+                "slot": "main",
+                "priority": "primary",
+                "kind": "video",
+                "keepAudio": true,
+                "relevantAudio": true,
+                "duration": 22.43,
+                "description": "INTRO",
+                "croped": false,
+                "expanded": true
+              }
+            ]
+          },
+          {
+            "id": "8a775697-8c68-4de2-bfec-4f5a50693819",
+            "layout": "referencia_fullscreen",
+            "pose": "observer_talking_default",
+            "speech": "Como nos filmes de máfia, a prova estava num celular. Um contrato amplo, sem tarefas claras, encontrado pela Polícia Federal. Um cheque em branco assinado por um banqueiro investigado, garantindo atuação 'onde fosse necessário'. Onde? Nos gabinetes onde as leis são dobradas.",
+            "audioMode": "voice_over_focus",
+            "references": [
+              {
+                "name": "02a.png",
+                "slot": "main",
+                "priority": "primary",
+                "kind": "image",
+                "description": "INTRO",
+                "croped": false,
+                "expanded": true
+              },
+              {
+                "name": "02b.png",
+                "slot": "extra",
+                "priority": "secondary",
+                "kind": "image",
+                "description": "INTRO",
+                "croped": false,
+                "expanded": true
+              },
+              {
+                "name": "01a.png",
+                "slot": "extra",
+                "priority": "secondary",
+                "kind": "image",
+                "description": "GANCHO",
+                "croped": false,
+                "expanded": true
+              },
+              {
+                "name": "02c.png",
+                "slot": "extra",
+                "priority": "secondary",
+                "kind": "image",
+                "description": "INTRO",
+                "croped": false,
+                "expanded": true
+              }
+            ]
+          }
+        ]
+      },
+      "apresentacaoDoProblema": {
+        "sections": [
+          {
+            "id": "33aacf83-8f22-451e-8e3f-555bced68784",
+            "layout": "observer_top_reference_bottom_vertical",
+            "pose": "observer_reading_phone",
+            "speech": "",
+            "audioMode": "reference_focus",
+            "references": [
+              {
+                "name": "[APRES]video-referencia_03.mp4",
+                "slot": "main",
+                "priority": "primary",
+                "kind": "video",
+                "keepAudio": true,
+                "relevantAudio": true,
+                "duration": 29.82000000000002,
+                "description": "APRES",
+                "croped": false,
+                "expanded": true
+              }
+            ]
+          },
+          {
+            "id": "9ca39f98-dabf-4c08-85ed-8224d03c9279",
+            "layout": "referencia_fullscreen",
+            "pose": "observer_talking_default",
+            "speech": "Especialistas são categóricos: isso é fantasia. Para ganhar isso, seria necessário trabalhar 24 horas por dia a 5 mil reais a hora. Matematicamente impossível. Não se paga honorários desse vulto por petições, paga-se por acesso à caneta mais poderosa do país.",
+            "audioMode": "voice_over_focus",
+            "references": [
+              {
+                "name": "03a.png",
+                "slot": "main",
+                "priority": "primary",
+                "kind": "image",
+                "description": "APRES",
+                "croped": false,
+                "expanded": true
+              },
+              {
+                "name": "03b.png",
+                "slot": "extra",
+                "priority": "secondary",
+                "kind": "image",
+                "description": "APRES",
+                "croped": false,
+                "expanded": true
+              },
+              {
+                "name": "03c.png",
+                "slot": "extra",
+                "priority": "secondary",
+                "kind": "image",
+                "description": "APRES",
+                "croped": false,
+                "expanded": true
+              },
+              {
+                "name": "01b.png",
+                "slot": "extra",
+                "priority": "secondary",
+                "kind": "image",
+                "description": "GANCHO",
+                "croped": false,
+                "expanded": true
+              }
+            ]
+          }
+        ]
+      },
+      "explicacao": {
+        "sections": [
+          {
+            "id": "0f52b47b-47b3-409e-867b-062f42356a27",
+            "layout": "observer_top_reference_bottom_vertical",
+            "pose": "observer_reading_phone",
+            "speech": "",
+            "audioMode": "reference_focus",
+            "references": [
+              {
+                "name": "[EXPLI]video-referencia_04.mp4",
+                "slot": "main",
+                "priority": "primary",
+                "kind": "video",
+                "keepAudio": true,
+                "relevantAudio": true,
+                "duration": 14.27000000000001,
+                "description": "EXPLI",
+                "croped": false,
+                "expanded": true
+              }
+            ]
+          },
+          {
+            "id": "261bc5ae-2b6d-421c-8883-aa5ebb2b7e28",
+            "layout": "referencia_fullscreen",
+            "pose": "observer_talking_default",
+            "speech": "O banqueiro foi preso por fraude de 2 bilhões e solto dias depois. A roda da impunidade gira azeitada por milhões. Enquanto o cidadão é perseguido, quem desvia bilhões encontra conforto na justiça. Um sistema de castas onde o STF protege os amigos.",
+            "audioMode": "voice_over_focus",
+            "references": [
+              {
+                "name": "04a.png",
+                "slot": "main",
+                "priority": "primary",
+                "kind": "image",
+                "description": "EXPLI",
+                "croped": false,
+                "expanded": true
+              },
+              {
+                "name": "04b.png",
+                "slot": "extra",
+                "priority": "secondary",
+                "kind": "image",
+                "description": "EXPLI",
+                "croped": false,
+                "expanded": true
+              },
+              {
+                "name": "01c.png",
+                "slot": "extra",
+                "priority": "secondary",
+                "kind": "image",
+                "description": "GANCHO",
+                "croped": false,
+                "expanded": true
+              },
+              {
+                "name": "04c.png",
+                "slot": "extra",
+                "priority": "secondary",
+                "kind": "image",
+                "description": "EXPLI",
+                "croped": false,
+                "expanded": true
+              }
+            ]
+          }
+        ]
+      },
+      "desfecho": {
+        "sections": [
+          {
+            "id": "74f410eb-f4f5-4f35-b9d8-9bdfbafb8a97",
+            "layout": "observer_top_reference_bottom_vertical",
+            "pose": "observer_reading_phone",
+            "speech": "",
+            "audioMode": "reference_focus",
+            "references": [
+              {
+                "name": "[DESFE]video-referencia_05.mp4",
+                "slot": "main",
+                "priority": "primary",
+                "kind": "video",
+                "keepAudio": true,
+                "relevantAudio": true,
+                "duration": 24.25,
+                "description": "DESFE",
+                "croped": false,
+                "expanded": true
+              }
+            ]
+          },
+          {
+            "id": "fc51d5b1-b92d-4de3-8cce-a699fb645f61",
+            "layout": "referencia_fullscreen",
+            "pose": "observer_talking_default",
+            "speech": "E para coroar, Toffoli viaja de jatinho com advogados do mesmo banco. Vivem numa estratosfera de luxo, intocáveis. Código de conduta? Ética? Palavras banidas. Eles se sentem reis absolutistas flanando sobre os escombros da democracia.",
+            "audioMode": "voice_over_focus",
+            "references": [
+              {
+                "name": "05a.png",
+                "slot": "main",
+                "priority": "primary",
+                "kind": "image",
+                "description": "DESFE",
+                "croped": false,
+                "expanded": true
+              },
+              {
+                "name": "05b.png",
+                "slot": "extra",
+                "priority": "secondary",
+                "kind": "image",
+                "description": "DESFE",
+                "croped": false,
+                "expanded": true
+              },
+              {
+                "name": "05c.png",
+                "slot": "extra",
+                "priority": "secondary",
+                "kind": "image",
+                "description": "DESFE",
+                "croped": false,
+                "expanded": true
+              }
+            ]
+          }
+        ]
+      },
+      "finalOpinativo": {
+        "sections": [
+          {
+            "id": "f285aa24-334c-4ac7-a5e1-dbc746d67f29",
+            "layout": "referencia_fullscreen",
+            "pose": "observer_talking_default",
+            "speech": "Nos EUA, isso derrubaria a República. Aqui, decretam sigilo. O Supremo virou um balcão de negócios. É corrupção esfregada na nossa cara com a arrogância de quem sabe que o Senado é covarde. Até quando a justiça terá um preço pago com a nossa liberdade?",
+            "audioMode": "voice_over_focus",
+            "references": [
+              {
+                "name": "06a.png",
+                "slot": "main",
+                "priority": "primary",
+                "kind": "image",
+                "description": "FINAL",
+                "croped": false,
+                "expanded": true
+              },
+              {
+                "name": "06b.png",
+                "slot": "extra",
+                "priority": "secondary",
+                "kind": "image",
+                "description": "FINAL",
+                "croped": false,
+                "expanded": true
+              },
+              {
+                "name": "06c.png",
+                "slot": "extra",
+                "priority": "secondary",
+                "kind": "image",
+                "description": "FINAL",
+                "croped": false,
+                "expanded": true
+              }
+            ]
+          },
+          {
+            "id": "cbfcc2d2-f05f-42bd-a844-12dbcd09afb4",
+            "layout": "referencia_fullscreen",
+            "pose": "observer_talking_default",
+            "speech": "",
+            "audioMode": "reference_focus",
+            "references": [
+              {
+                "name": "ending-default_01.mp4",
+                "slot": "main",
+                "priority": "primary",
+                "kind": "video",
+                "keepAudio": true,
+                "relevantAudio": true,
+                "duration": 7.466667,
+                "croped": false,
+                "expanded": false
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "longVideo": {
+      "introducao": {
+        "sections": [
+          {
+            "id": "5fc41625-db8c-45b4-872a-0a7c7865ab9f",
+            "layout": "referencia_fullscreen",
+            "pose": "observer_talking_default",
+            "speech": "",
+            "audioMode": "reference_focus",
+            "references": [
+              {
+                "name": "[GANCHO]video-referencia_01.mp4",
+                "slot": "main",
+                "priority": "primary",
+                "kind": "video",
+                "keepAudio": true,
+                "relevantAudio": true,
+                "duration": 13.959999999999999,
+                "description": "GANCHO",
+                "croped": false,
+                "expanded": true
+              }
+            ]
+          },
+          {
+            "id": "e86a7e40-28d2-42f1-9fd1-8cef0f400576",
+            "layout": "referencia_fullscreen",
+            "pose": "observer_talking_default",
+            "speech": "129 milhões. Esse é o preço do bilhete premiado na loteria do judiciário. Não estamos falando de uma fusão multinacional, mas de um contrato nebuloso envolvendo a esposa do homem mais poderoso do país. Enquanto o brasileiro comum conta moedas para pagar impostos, o escritório da mulher de Alexandre de Moraes fecha acordos que desafiam a lógica e a moralidade. É advocacia ou venda de influência explícita?",
+            "audioMode": "voice_over_focus",
+            "references": [
+              {
+                "name": "01a.png",
+                "slot": "main",
+                "priority": "primary",
+                "kind": "image",
+                "description": "GANCHO",
+                "croped": false,
+                "expanded": true
+              },
+              {
+                "name": "01b.png",
+                "slot": "extra",
+                "priority": "secondary",
+                "kind": "image",
+                "description": "GANCHO",
+                "croped": false,
+                "expanded": true
+              },
+              {
+                "name": "01c.png",
+                "slot": "extra",
+                "priority": "secondary",
+                "kind": "image",
+                "description": "GANCHO",
+                "croped": false,
+                "expanded": true
+              }
+            ]
+          },
+          {
+            "id": "59c3b09a-153c-4eb7-a09d-600fc40122b0",
+            "layout": "referencia_fullscreen",
+            "pose": "observer_talking_default",
+            "speech": "",
+            "audioMode": "reference_focus",
+            "references": [
+              {
+                "name": "intro-default_01.mp4",
+                "slot": "main",
+                "priority": "primary",
+                "kind": "video",
+                "keepAudio": true,
+                "relevantAudio": true,
+                "duration": 6.9,
+                "croped": false,
+                "expanded": false
+              }
+            ]
+          },
+          {
+            "id": "e37de04c-7094-42c5-a0b2-f15cc99677d0",
+            "layout": "referencia_fullscreen",
+            "pose": "observer_talking_default",
+            "speech": "",
+            "audioMode": "reference_focus",
+            "references": [
+              {
+                "name": "[INTRO]video-referencia_02.mp4",
+                "slot": "main",
+                "priority": "primary",
+                "kind": "video",
+                "keepAudio": true,
+                "relevantAudio": true,
+                "duration": 22.43,
+                "description": "INTRO",
+                "croped": false,
+                "expanded": true
+              }
+            ]
+          },
+          {
+            "id": "298e3328-9b72-4884-b137-0ee88bab3ad2",
+            "layout": "referencia_fullscreen",
+            "pose": "observer_talking_default",
+            "speech": "Como nos velhos filmes de máfia, a prova do crime estava escondida num celular. Um \"contrato amplo\", sem processos definidos, sem tarefas claras. Apenas a garantia de que o escritório atuaria \"onde fosse necessário\". Onde seria isso? Nos gabinetes acarpetados de Brasília onde as leis são dobradas? É um cheque em branco assinado por um banqueiro investigado, encontrado pela Polícia Federal, e que agora grita por explicações que nunca virão.",
+            "audioMode": "voice_over_focus",
+            "references": [
+              {
+                "name": "02a.png",
+                "slot": "main",
+                "priority": "primary",
+                "kind": "image",
+                "description": "INTRO",
+                "croped": false,
+                "expanded": true
+              },
+              {
+                "name": "02b.png",
+                "slot": "extra",
+                "priority": "secondary",
+                "kind": "image",
+                "description": "INTRO",
+                "croped": false,
+                "expanded": true
+              },
+              {
+                "name": "02c.png",
+                "slot": "extra",
+                "priority": "secondary",
+                "kind": "image",
+                "description": "INTRO",
+                "croped": false,
+                "expanded": true
+              }
+            ]
+          }
+        ]
+      },
+      "apresentacaoDoProblema": {
+        "sections": [
+          {
+            "id": "a4c71b79-c0a4-44c6-a628-9193ac31f94e",
+            "layout": "referencia_fullscreen",
+            "pose": "observer_talking_default",
+            "speech": "",
+            "audioMode": "reference_focus",
+            "references": [
+              {
+                "name": "[APRES]video-referencia_03.mp4",
+                "slot": "main",
+                "priority": "primary",
+                "kind": "video",
+                "keepAudio": true,
+                "relevantAudio": true,
+                "duration": 29.82000000000002,
+                "description": "APRES",
+                "croped": false,
+                "expanded": true
+              }
+            ]
+          },
+          {
+            "id": "c5539621-810e-4b1f-9b8e-4098e24206bc",
+            "layout": "referencia_fullscreen",
+            "pose": "observer_talking_default",
+            "speech": "Especialistas são categóricos: isso não existe. É uma fantasia. Para ganhar isso honestamente, um advogado teria que cobrar R$ 5 mil por hora, trabalhando 24 horas por dia, sem dormir, sem comer. É matematicamente impossível. Se não é trabalho técnico, o que está sendo vendido? A resposta paira no ar pesado de Brasília. Não se paga honorários desse vulto por petições, paga-se por acesso, por portas abertas e por decisões favoráveis que o dinheiro comum não compra.",
+            "audioMode": "voice_over_focus",
+            "references": [
+              {
+                "name": "03a.png",
+                "slot": "main",
+                "priority": "primary",
+                "kind": "image",
+                "description": "APRES",
+                "croped": false,
+                "expanded": true
+              },
+              {
+                "name": "03b.png",
+                "slot": "extra",
+                "priority": "secondary",
+                "kind": "image",
+                "description": "APRES",
+                "croped": false,
+                "expanded": true
+              },
+              {
+                "name": "03c.png",
+                "slot": "extra",
+                "priority": "secondary",
+                "kind": "image",
+                "description": "APRES",
+                "croped": false,
+                "expanded": true
+              }
+            ]
+          }
+        ]
+      },
+      "explicacao": {
+        "sections": [
+          {
+            "id": "8c3e2480-aec4-4079-afa3-3ab3a14e993a",
+            "layout": "referencia_fullscreen",
+            "pose": "observer_talking_default",
+            "speech": "",
+            "audioMode": "reference_focus",
+            "references": [
+              {
+                "name": "[EXPLI]video-referencia_04.mp4",
+                "slot": "main",
+                "priority": "primary",
+                "kind": "video",
+                "keepAudio": true,
+                "relevantAudio": true,
+                "duration": 14.27000000000001,
+                "description": "EXPLI",
+                "croped": false,
+                "expanded": true
+              }
+            ]
+          },
+          {
+            "id": "7826a35d-f4bc-4c07-a409-2c512709c7a9",
+            "layout": "referencia_fullscreen",
+            "pose": "observer_talking_default",
+            "speech": "O enredo se complica. O banqueiro que paga a esposa do Ministro foi preso por uma fraude de 2 bilhões, mas — surpresa! — foi solto dias depois. A roda da impunidade gira azeitada por milhões de reais. Enquanto o cidadão de bem é perseguido por opiniões, quem desvia bilhões encontra conforto nos braços da justiça que deveria puni-lo. É um sistema de castas onde o STF não é mais o guardião da Constituição, mas o guardião dos amigos.",
+            "audioMode": "voice_over_focus",
+            "references": [
+              {
+                "name": "04a.png",
+                "slot": "main",
+                "priority": "primary",
+                "kind": "image",
+                "description": "EXPLI",
+                "croped": false,
+                "expanded": true
+              },
+              {
+                "name": "04b.png",
+                "slot": "extra",
+                "priority": "secondary",
+                "kind": "image",
+                "description": "EXPLI",
+                "croped": false,
+                "expanded": true
+              },
+              {
+                "name": "04c.png",
+                "slot": "extra",
+                "priority": "secondary",
+                "kind": "image",
+                "description": "EXPLI",
+                "croped": false,
+                "expanded": true
+              }
+            ]
+          }
+        ]
+      },
+      "desfecho": {
+        "sections": [
+          {
+            "id": "3b034ba8-32ac-4cf4-a408-e2fdc64998f9",
+            "layout": "referencia_fullscreen",
+            "pose": "observer_talking_default",
+            "speech": "",
+            "audioMode": "reference_focus",
+            "references": [
+              {
+                "name": "[DESFE]video-referencia_05.mp4",
+                "slot": "main",
+                "priority": "primary",
+                "kind": "video",
+                "keepAudio": true,
+                "relevantAudio": true,
+                "duration": 24.25,
+                "description": "DESFE",
+                "croped": false,
+                "expanded": true
+              }
+            ]
+          },
+          {
+            "id": "0b74317b-809c-4d6f-b818-9a49266d4a08",
+            "layout": "referencia_fullscreen",
+            "pose": "observer_talking_default",
+            "speech": "E para coroar a \"Gilmar palooza\", temos Dias Toffoli viajando de jatinho com advogados do mesmo banco para ver futebol. Eles nem disfarçam mais. Vivem numa estratosfera de luxo, charutos e viagens internacionais, totalmente desconectados da realidade do país que afundam. Código de conduta? Ética? Essas palavras foram banidas do vocabulário da Corte. Eles se sentem intocáveis, reis absolutistas flanando sobre os escombros da nossa democracia.",
+            "audioMode": "voice_over_focus",
+            "references": [
+              {
+                "name": "05a.png",
+                "slot": "main",
+                "priority": "primary",
+                "kind": "image",
+                "description": "DESFE",
+                "croped": false,
+                "expanded": true
+              },
+              {
+                "name": "05b.png",
+                "slot": "extra",
+                "priority": "secondary",
+                "kind": "image",
+                "description": "DESFE",
+                "croped": false,
+                "expanded": true
+              },
+              {
+                "name": "05c.png",
+                "slot": "extra",
+                "priority": "secondary",
+                "kind": "image",
+                "description": "DESFE",
+                "croped": false,
+                "expanded": true
+              }
+            ]
+          }
+        ]
+      },
+      "finalOpinativo": {
+        "sections": [
+          {
+            "id": "1d07674f-53c2-44f0-a9c9-c78274780717",
+            "layout": "referencia_fullscreen",
+            "pose": "observer_talking_default",
+            "speech": "",
+            "audioMode": "reference_focus",
+            "references": [
+              {
+                "name": "[FINAL]video-referencia_06.mp4",
+                "slot": "main",
+                "priority": "primary",
+                "kind": "video",
+                "keepAudio": true,
+                "relevantAudio": true,
+                "duration": 49.680000000000064,
+                "description": "FINAL",
+                "croped": false,
+                "expanded": true
+              }
+            ]
+          },
+          {
+            "id": "4a044932-13bb-4f0f-a891-9426fdbdcede",
+            "layout": "referencia_fullscreen",
+            "pose": "observer_talking_default",
+            "speech": "Nos Estados Unidos, isso derrubaria a República. Aqui, decretam sigilo. A blindagem é total. Alexandre de Moraes, Toffoli e seus pares transformaram o Supremo num balcão de negócios familiares. É corrupção institucionalizada, esfregada na nossa cara com a arrogância de quem sabe que o Senado é covarde demais para agir. Até quando vamos aceitar que a justiça tenha um preço e que esse preço seja pago com a nossa liberdade e o nosso futuro?",
+            "audioMode": "voice_over_focus",
+            "references": [
+              {
+                "name": "06a.png",
+                "slot": "main",
+                "priority": "primary",
+                "kind": "image",
+                "description": "FINAL",
+                "croped": false,
+                "expanded": true
+              },
+              {
+                "name": "06b.png",
+                "slot": "extra",
+                "priority": "secondary",
+                "kind": "image",
+                "description": "FINAL",
+                "croped": false,
+                "expanded": true
+              },
+              {
+                "name": "06c.png",
+                "slot": "extra",
+                "priority": "secondary",
+                "kind": "image",
+                "description": "FINAL",
+                "croped": false,
+                "expanded": true
+              }
+            ]
+          },
+          {
+            "id": "e0792635-add5-4b04-9ba9-60b87077d72e",
+            "layout": "referencia_fullscreen",
+            "pose": "observer_talking_default",
+            "speech": "",
+            "audioMode": "reference_focus",
+            "references": [
+              {
+                "name": "ending-default_01.mp4",
+                "slot": "main",
+                "priority": "primary",
+                "kind": "video",
+                "keepAudio": true,
+                "relevantAudio": true,
+                "duration": 7.466667,
+                "croped": false,
+                "expanded": false
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "descricaoYoutube": "Um contrato explosivo de R$ 129 milhões coloca a esposa do ministro Alexandre de Moraes no centro de um escândalo envolvendo o Banco Master. Documentos encontrados pela Polícia Federal revelam pagamentos mensais de R$ 3,6 milhões sem justificativa clara de serviços, um valor considerado \"impossível\" por especialistas jurídicos.\n\nNeste vídeo, analisamos a \"bandalheira\" institucionalizada: enquanto Daniel Vorcaro, banqueiro investigado por fraudes bilionárias, paga fortunas ao escritório da família Moraes, o ministro Dias Toffoli viaja de carona em jatinhos de advogados ligados ao mesmo banco. Entenda como funciona a \"venda de influência\" e a blindagem no STF, onde o sigilo é decretado para proteger os amigos da corte, enquanto presos políticos seguem sem direitos.\n\n--Neste vídeo você verá:--\n*   Os detalhes do contrato de R$ 129 milhões de Viviane Barci.\n*   A conexão entre o Banco Master e as decisões judiciais.\n*   A farra dos jatinhos: Toffoli e a promiscuidade com advogados.\n*   Por que o Senado se cala diante de crimes de responsabilidade?\n\n📢 Não se esqueça de se INSCREVER e COMPARTILHAR este vídeo. A grande mídia tenta esconder, mas nós mostramos a verdade.\n\n#AlexandreDeMoraes #STF #BancoMaster #Corrupção #Politica",
+    "descricaoToktok": "Um contrato explosivo de R$ 129 milhões coloca a esposa do ministro Alexandre de Moraes no centro de um escândalo envolvendo o Banco Master. Documentos encontrados pela Polícia Federal revelam pagamentos mensais de R$ 3,6 milhões sem justificativa clara de serviços, um valor considerado \"impossível\" por especialistas jurídicos.\n\nNeste vídeo, analisamos a \"bandalheira\" institucionalizada: enquanto Daniel Vorcaro, banqueiro investigado por fraudes bilionárias, paga fortunas ao escritório da família Moraes, o ministro Dias Toffoli viaja de carona em jatinhos de advogados ligados ao mesmo banco. Entenda como funciona a \"venda de influência\" e a blindagem no STF, onde o sigilo é decretado para proteger os amigos da corte, enquanto presos políticos seguem sem direitos.\n\n--Neste vídeo você verá:--\n*   Os detalhes do contrato de R$ 129 milhões de Viviane Barci.\n*   A conexão entre o Banco Master e as decisões judiciais.\n*   A farra dos jatinhos: Toffoli e a promiscuidade com advogados.\n*   Por que o Senado se cala diante de crimes de responsabilidade?\n\n📢 Não se esqueça de se INSCREVER e COMPARTILHAR este vídeo. A grande mídia tenta esconder, mas nós mostramos a verdade.\n\n#AlexandreDeMoraes #STF #BancoMaster #Corrupção #Politica",
+    "tags": "Alexandre de Moraes, Viviane Barci, Banco Master, Dias Toffoli, STF, Supremo Tribunal Federal, Escândalo STF, Corrupção no Judiciário, Daniel Vorcaro, Impeachment Alexandre de Moraes, Senado Federal, Lavagem de Dinheiro, Operação Compliance Zero, Jatinho Toffoli, Gilmarpalooza, Direita Brasil, Notícias de Hoje, Política Brasileira, Governo Lula, Juristocracia, Ditadura do Judiciário, 8 de Janeiro, Presos Políticos.",
+    "hasThumbnailHorizontal": true,
+    "hasThumbnailVertical": true
+  },
+  "message_id": 2677,
+  "selectedMusic": {
+    "short": [
+      {
+        "name": "tension_6.mp3",
+        "duration": 290.179773,
+        "path": "D:\\projetos\\bot-estourou-noticias\\global\\musicas\\tension_6.mp3"
+      }
+    ]
+  }
+}
