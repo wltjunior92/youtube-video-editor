@@ -32,7 +32,7 @@ export async function listScenes(currentState: IGlobalState, stage: string) {
     "videos",
     "estourouNoticia",
     currentState.path_name,
-    "short",
+    "long",
     stage,
     "tmp"
   );
@@ -62,7 +62,7 @@ export async function generateConcatCommandToScenes(
     "videos",
     "estourouNoticia",
     currentState.path_name,
-    "short",
+    "long",
     stage,
     "tmp",
   );
@@ -73,7 +73,7 @@ export async function generateConcatCommandToScenes(
     "videos",
     "estourouNoticia",
     currentState.path_name,
-    "short",
+    "long",
     stage,
   );
 

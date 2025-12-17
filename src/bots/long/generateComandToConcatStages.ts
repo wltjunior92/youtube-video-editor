@@ -50,7 +50,7 @@ async function listStages(currentState: IGlobalState) {
         "videos",
         "estourouNoticia",
         currentState.path_name!,
-        "short",
+        "long",
         stage,
       );
 
@@ -76,16 +76,15 @@ async function listStages(currentState: IGlobalState) {
 export async function generateConcatCommandToStages(currentState: IGlobalState) {
   if (!currentState.path_name) throw new Error("Path name not found");
 
-  const baseShortDir = join(
+  const baseLongDir = join(
     process.cwd(),
     "videos",
     "estourouNoticia",
     currentState.path_name,
-    "short",
+    "long",
   );
 
-  // Saída final do short completo (equivalente ao n8n)
-  const output = join(baseShortDir, "tmp", "short_concatenado.mp4");
+  const output = join(baseLongDir, "tmp", "long_concatenado.mp4");
 
   const stages = await listStages(currentState);
 

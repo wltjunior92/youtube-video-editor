@@ -55,12 +55,20 @@ const IMAGE_SLIDE_DEFAULT_DURATION = 4;
 // Loop FFmpeg
 const LOOP_MAX_SIZE = 32767;
 
-// Pan horizontal (IMAGEM) — editável (igual no curto)
-const HORIZONTAL_PAN_RATIO = 0.3; // 0.5 = 50% da sobra
-const HORIZONTAL_PAN_OFFSET = (1 - HORIZONTAL_PAN_RATIO) / 2; // centraliza
+const TARGET_FPS = '30000/1001'
 
 function q(p: string) {
+  // aspas duplas no CLI do ffmpeg é o mais seguro no Windows
   return `"${p}"`;
+}
+
+/**
+ * IMPORTANTÍSSIMO (Windows):
+ * - Dentro do filter_complex (drawtext/fontfile), path com "\" costuma quebrar.
+ * - Normalize para "/".
+ */
+function toFFmpegPath(p: string) {
+  return String(p).replace(/\\/g, '/');
 }
 
 function isImageFile(filename?: string) {
@@ -97,34 +105,77 @@ function buildEaseExpr(dur: number) {
   return `(pow(min(1\\,t/${dStr}),2)*(3-2*min(1\\,t/${dStr})))`;
 }
 
+function seeded(n: number) {
+  const x = Math.sin(n * 9999.123) * 10000;
+  return x - Math.floor(x);
+}
+
+function pickDriftParams(sceneIndex: number, refIndex: number) {
+  const s = sceneIndex * 100 + refIndex;
+
+  const phaseX = seeded(s + 1) * Math.PI * 2;
+  const phaseY = seeded(s + 2) * Math.PI * 2;
+
+  const periodX = 6 + seeded(s + 3) * 6; // 6..12
+  const periodY = 7 + seeded(s + 4) * 7; // 7..14
+
+  const ampX = 0.65 + seeded(s + 5) * 0.25; // 0.65..0.90
+  const ampY = 0.25 + seeded(s + 6) * 0.25; // 0.25..0.50
+
+  return { phaseX, phaseY, periodX, periodY, ampX, ampY };
+}
+
 /**
- * Pan horizontal para IMAGEM.
+ * Drift com sin/cos para IMAGEM.
+ * Ideia: escala maior (overscale) e faz crop animado no tamanho do frame.
  *
- * Correção IMPORTANTÍSSIMA:
- * - Antes eu fazia scale pela altura (scale=-2:targetH). Isso quebra quando a imagem é "estreita"
- *   (ex: vertical 9:16), porque a largura fica menor que targetW e o crop estoura.
- * - Agora eu uso scale=targetW:targetH:force_original_aspect_ratio=increase, garantindo que iw>=targetW e ih>=targetH.
+ * - overscale precisa ser > 1.0 (ex.: 1.10).
+ * - ampX/ampY são porcentagens do quanto usar da sobra (0..1).
+ * - periodX/periodY em segundos.
+ * - phaseX/phaseY em radianos.
  */
-function buildImageHorizontalPan(
+function buildImageSinDrift(
   inLabel: string,
   outLabel: string,
-  dur: number,
+  dur: number, // mantém por assinatura, mas não usa mais para ease
   targetW: number,
   targetH: number,
   fps: number,
+  ampX: number,
+  ampY: number,
+  periodX: number,
+  periodY: number,
+  phaseX: number,
+  phaseY: number,
+  overscale: number,
 ) {
-  const ease = buildEaseExpr(dur);
+  const os = Math.max(1.01, overscale);
+  const ax = Math.max(0, Math.min(1, ampX));
+  const ay = Math.max(0, Math.min(1, ampY));
+
+  const px = Math.max(0.2, periodX);
+  const py = Math.max(0.2, periodY);
+
+  const scaledW = Math.round(targetW * os);
+  const scaledH = Math.round(targetH * os);
+
+  // Sem ease: drift contínuo
+  const xExpr =
+    `((iw-${targetW})/2)+(((iw-${targetW})*${ax})/2)*sin(2*PI*t/${px.toFixed(3)}+${phaseX.toFixed(4)})`;
+
+  const yExpr =
+    `((ih-${targetH})/2)+(((ih-${targetH})*${ay})/2)*cos(2*PI*t/${py.toFixed(3)}+${phaseY.toFixed(4)})`;
 
   return (
-    `${inLabel}setsar=1,` +
+    `${inLabel}` +
+    `setsar=1,` +
     `fps=${fps},` +
-    `scale=${targetW}:${targetH}:force_original_aspect_ratio=increase,` +
-    `crop=${targetW}:${targetH}:` +
-    `x='((iw-${targetW})*${HORIZONTAL_PAN_OFFSET})+((iw-${targetW})*${HORIZONTAL_PAN_RATIO})*${ease}':` +
-    `y=0` +
+    `scale=${scaledW}:${scaledH}:force_original_aspect_ratio=increase,` +
+    `crop=${targetW}:${targetH}:x='${xExpr}':y='${yExpr}'` +
     `${outLabel}`
   );
 }
+
 
 export async function generateLongCommandWithNarration(
   scene: OptimizeLongSceneResponse['scene'],
@@ -159,7 +210,9 @@ export async function generateLongCommandWithNarration(
 
   const lowerThirdFullPath = join(globalBase, 'lower_thirds_full.png');
   const lowerThirdSmallPath = join(globalBase, 'lower_thirds_small.png');
-  const fontPath = join(globalBase, 'Montserrat-Medium.ttf');
+
+  // ⚠️ vai dentro do filter_complex, então normaliza
+  const fontPath = toFFmpegPath(join(globalBase, 'Montserrat-Medium.ttf'));
 
   const outDir = join(
     process.cwd(),
@@ -184,17 +237,17 @@ export async function generateLongCommandWithNarration(
   // Refs do slide: main + extras
   const mainRef = scene.mainReference;
   const extraRefs = Array.isArray(scene.extraReferences) ? scene.extraReferences : [];
-  const slideRefs = [mainRef, ...extraRefs].filter((r) => r && r.name);
+  const slideRefs = [mainRef, ...extraRefs].filter((r) => r && (r as any).name);
 
   const allSlideImages =
-    slideRefs.length > 0 && slideRefs.every((r) => isImageFile(r?.name));
+    slideRefs.length > 0 && slideRefs.every((r) => isImageFile((r as any)?.name));
 
   const imageSlotDuration =
     allSlideImages && narrationDuration > 0 && slideRefs.length > 0
       ? narrationDuration / slideRefs.length
       : null;
 
-  const cmdParts: string[] = ['ffmpeg -y -hide_banner -loglevel error'];
+  const cmdParts: string[] = ['ffmpeg -y'];
   let nextInputIndex = 0;
 
   const addInput = (arg: string) => {
@@ -204,9 +257,7 @@ export async function generateLongCommandWithNarration(
 
   // Inputs base
   const bgIndex = addInput(`-loop 1 -i ${q(backgroundPath)}`);
-  const poseIndex = addInput(
-    isPoseVideo ? `-i ${q(posePath)}` : `-loop 1 -i ${q(posePath)}`,
-  );
+  const poseIndex = addInput(isPoseVideo ? `-i ${q(posePath)}` : `-loop 1 -i ${q(posePath)}`);
   const bigFrameIndex = addInput(`-loop 1 -i ${q(bigFramePath)}`);
 
   let smallFrameIndex: number | null = null;
@@ -225,19 +276,20 @@ export async function generateLongCommandWithNarration(
   }> = [];
 
   slideRefs.forEach((ref) => {
-    if (!ref?.name) return;
+    const name = (ref as any)?.name;
+    if (!name) return;
 
-    const file = ref.name;
+    const file = String(name);
     const path = join(referencesBase, file);
     const isImg = isImageFile(file);
 
     let baseDur = 0;
     if (isImg) {
       if (imageSlotDuration) baseDur = imageSlotDuration;
-      else if (ref.duration && ref.duration > 0) baseDur = ref.duration;
+      else if ((ref as any).duration && (ref as any).duration > 0) baseDur = (ref as any).duration;
       else baseDur = IMAGE_SLIDE_DEFAULT_DURATION;
     } else {
-      baseDur = ref.duration && ref.duration > 0 ? ref.duration : 0;
+      baseDur = (ref as any).duration && (ref as any).duration > 0 ? (ref as any).duration : 0;
     }
 
     const hasDur = baseDur > 0;
@@ -267,7 +319,6 @@ export async function generateLongCommandWithNarration(
   // === CASO ESPECIAL: referencia_fullscreen COM NARRAÇÃO
   // =================================================================================
   if (layoutName === 'referencia_fullscreen' && slideMeta.length) {
-    // pega a primeira fonte existente
     let refSource: string | null = null;
     for (const m of slideMeta) {
       if (m.source) {
@@ -292,20 +343,29 @@ export async function generateLongCommandWithNarration(
     // Base
     filter += `[${bgIndex}:v]scale=${CANVAS_W}:${CANVAS_H}[bg];`;
 
-    // Preparar refs: IMAGEM = pan horizontal; VÍDEO = scale/crop
+    // Preparar refs: IMAGEM = drift sin/cos; VÍDEO = scale/crop
     slideMeta.forEach((meta, i) => {
       const inIdx = meta.inputIndex;
 
       if (meta.isImage) {
         const dur = meta.duration || IMAGE_SLIDE_DEFAULT_DURATION;
+        const p = pickDriftParams(sceneIndex, i);
+
         filter +=
-          buildImageHorizontalPan(
+          buildImageSinDrift(
             `[${inIdx}:v]`,
             `[fref_${i}]`,
             dur,
             BIG_FULL_FG_W,
             BIG_FULL_FG_H,
             25,
+            p.ampX,
+            p.ampY,
+            p.periodX,
+            p.periodY,
+            p.phaseX,
+            p.phaseY,
+            1.10, // overscale no bigFrame
           ) + ';';
       } else {
         filter +=
@@ -345,6 +405,7 @@ export async function generateLongCommandWithNarration(
       `-map ${narrationIndex}:a`,
       '-c:v libx264 -preset veryfast -crf 18 -pix_fmt yuv420p',
       '-c:a aac',
+      `-t ${narrationDuration.toFixed(3)}`,
       '-shortest',
       q(outFile),
     );
@@ -369,6 +430,7 @@ export async function generateLongCommandWithNarration(
       `-map ${narrationIndex}:a`,
       '-c:v libx264 -preset veryfast -crf 18 -pix_fmt yuv420p',
       '-c:a aac',
+      `-t ${narrationDuration.toFixed(3)}`,
       '-shortest',
       q(outFile),
     );
@@ -433,25 +495,35 @@ export async function generateLongCommandWithNarration(
 
   // Preparar refs p/ smallFrame:
   // - BG blur (sempre)
-  // - FG: IMAGEM = pan horizontal (com scale increase + crop seguro)
-  //       VÍDEO = crop central normal
+  // - FG: IMAGEM = drift; VÍDEO = scale/crop
   slideMeta.forEach((meta, i) => {
     const inIdx = meta.inputIndex;
 
+    // BG blur preenchendo SMALL_W x SMALL_H
     filter +=
       `[${inIdx}:v]scale=${SMALL_W}:${SMALL_H}:force_original_aspect_ratio=increase,` +
       `boxblur=40:1,crop=${SMALL_W}:${SMALL_H}[sbg_${i}];`;
 
     if (meta.isImage) {
       const dur = meta.duration || IMAGE_SLIDE_DEFAULT_DURATION;
+      const p = pickDriftParams(sceneIndex, i);
+
       filter +=
-        buildImageHorizontalPan(
+        buildImageSinDrift(
           `[${inIdx}:v]`,
           `[sfg_${i}]`,
           dur,
           SMALL_INNER_W,
           SMALL_INNER_H,
           25,
+          // small: um pouco mais forte pra ficar perceptível
+          Math.min(1, p.ampX + 0.10),
+          Math.min(1, p.ampY + 0.10),
+          p.periodX,
+          p.periodY,
+          p.phaseX,
+          p.phaseY,
+          1.14, // overscale no smallFrame (precisa mais sobra)
         ) + ';';
     } else {
       filter +=
@@ -484,7 +556,9 @@ export async function generateLongCommandWithNarration(
     const start = segmentStarts[i];
     const end = segmentEnds[i];
 
-    const enable = `between(mod(t\\,${totalSpan.toFixed(3)})\\,${start.toFixed(3)}\\,${end.toFixed(3)})`;
+    const enable = `between(mod(t\\,${totalSpan.toFixed(3)})\\,${start.toFixed(3)}\\,${end.toFixed(
+      3,
+    )})`;
 
     const ltLabel = `slt_${i}`;
     const ltcLabel = `sltc_${i}`;
@@ -501,7 +575,7 @@ export async function generateLongCommandWithNarration(
     currentLabel = outLabel;
   });
 
-  filter += `[${currentLabel}]copy[video];`;
+  filter += `[${currentLabel}]fps=${TARGET_FPS},settb=AVTB,setpts=PTS-STARTPTS[video];`;
 
   cmdParts.push(`-filter_complex "${filter}"`);
 
@@ -510,6 +584,7 @@ export async function generateLongCommandWithNarration(
     `-map ${narrationIndex}:a`,
     '-c:v libx264 -preset veryfast -crf 18 -pix_fmt yuv420p',
     '-c:a aac',
+    `-t ${narrationDuration.toFixed(3)}`,
     '-shortest',
     q(outFile),
   );

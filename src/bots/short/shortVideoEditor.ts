@@ -121,7 +121,6 @@ export async function startShortVideoEditing(currentState: IGlobalState) {
               messageId,
             )
           }
-          console.log('teste')
         }
       }
     }
@@ -174,7 +173,7 @@ export async function startShortVideoEditing(currentState: IGlobalState) {
       message: `>> Transcrevendo áudio`,
       message_id: messageId,
     })
-    const transcription = await generateTranscription(currentState)
+    const transcription = await generateTranscription(currentState, 'short')
     const duration = transcription.duration || 0
   
     const assPath = join(basePath, 'tmp')
@@ -225,7 +224,7 @@ export async function startShortVideoEditing(currentState: IGlobalState) {
   inputPath = outputPath
   outputPath = join(basePath, `${currentState.path_name}.mp4`)
   
-  const finalVersionCmd = await generateChangeVideoSpeedCommand(inputPath, outputPath)
+  const finalVersionCmd = await generateChangeVideoSpeedCommand(inputPath, outputPath, currentState)
   const shortVideoDuration = await getMediaDuration(inputPath)
   await executeFfmpegCommand(
     finalVersionCmd,

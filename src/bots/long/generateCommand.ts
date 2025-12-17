@@ -1,8 +1,11 @@
-import { join } from "node:path";
-import { IGlobalState } from "../../interfaces/globalState";
-import { OptimizeLongSceneResponse } from "./optimizeLongScene";
+import { join } from 'node:path';
+import { IGlobalState } from '../../interfaces/globalState';
+import { OptimizeLongSceneResponse } from './optimizeLongScene';
 
 const LOOP_MAX_SIZE = 32767;
+
+// ✅ FPS alvo do LONG (tem que bater com o concat)
+const TARGET_FPS = '30000/1001'; // 29.97
 
 // === Canvas LONG (16:9) ===
 const CANVAS_W = 1920;
@@ -89,7 +92,7 @@ export function generateCommand(
   scene: Scene,
   stage: string,
   sceneIndex: number,
-  currentState: IGlobalState
+  currentState: IGlobalState,
 ) {
   if (!currentState.path_name) throw new Error('Path name not found');
   if (!scene.mainReference?.name) {
@@ -102,7 +105,7 @@ export function generateCommand(
   const globalBase = join(process.cwd(), 'global');
   const localPath = join(process.cwd(), 'videos', 'estourouNoticia', currentState.path_name);
 
-  const referencesBase = join(process.cwd(), "references", currentState.path_name);
+  const referencesBase = join(process.cwd(), 'references', currentState.path_name);
 
   // Saída
   const outDir = join(localPath, 'long', stage, 'tmp');
@@ -150,7 +153,8 @@ export function generateCommand(
   const fontPath = join(globalBase, 'Montserrat-Medium.ttf');
 
   const wantsLowerThirdForLayout =
-    ['referencia_fullscreen',
+    [
+      'referencia_fullscreen',
       'referencia_full_with_observer_pointing_left_and_extra',
       'referencia_full_with_observer_pointing_right_and_extra',
     ].includes(layoutName) && hasSource;
@@ -166,7 +170,7 @@ export function generateCommand(
   const bgIndex = addInput(`-loop 1 -i ${q(backgroundPath)}`);
 
   const mainRefIndex = addInput(
-    mainIsImage ? `-loop 1 -i ${q(mainRefPath)}` : `-i ${q(mainRefPath)}`
+    mainIsImage ? `-loop 1 -i ${q(mainRefPath)}` : `-i ${q(mainRefPath)}`,
   );
 
   let poseIndex: number | null = null;
@@ -196,7 +200,7 @@ export function generateCommand(
     const erIsImage = isImageFile(er.name);
 
     const idxIn = addInput(
-      erIsImage ? `-loop 1 -i ${q(erPath)}` : `-stream_loop -1 -i ${q(erPath)}`
+      erIsImage ? `-loop 1 -i ${q(erPath)}` : `-stream_loop -1 -i ${q(erPath)}`,
     );
 
     const baseDur =
@@ -234,7 +238,6 @@ export function generateCommand(
 
   // ================ LAYOUTS ================
 
-  // 1) referencia_fullscreen (ou observador_full_clean em reference_focus)
   if (
     layoutName === 'referencia_fullscreen' ||
     (layoutName === 'observador_full_clean' && focus === 'reference_focus')
@@ -247,17 +250,13 @@ export function generateCommand(
       `[bg][ref_bg]overlay=${blurFullX}:${blurFullY}:eof_action=pass[step1];` +
       `[step1][ref_fg]overlay=${fullFgX}:${fullFgY}:eof_action=pass[step2];` +
       `[step2][${bigFrameIndex}:v]overlay=${bigCenterX}:${bigCenterY}:eof_action=pass[base_vid];` +
-      buildLowerThirdBlock("base_vid", "video", ltFullX, ltFullY);
-
-    // 2) observador_full_clean em voice_over_focus (usa pose)
+      buildLowerThirdBlock('base_vid', 'video_raw', ltFullX, ltFullY);
   } else if (layoutName === 'observador_full_clean' && focus !== 'reference_focus' && poseIndex !== null) {
     filter +=
       `[${poseIndex}:v]scale=${BIG_FULL_FG_W}:${BIG_FULL_FG_H}:force_original_aspect_ratio=increase,` +
       `crop=${BIG_FULL_FG_W}:${BIG_FULL_FG_H}[pose_fg];` +
       `[bg][pose_fg]overlay=${fullFgX}:${fullFgY}:eof_action=pass[step1];` +
-      `[step1][${bigFrameIndex}:v]overlay=${bigCenterX}:${bigCenterY}:eof_action=pass[video]`;
-
-    // 3) observador_full_left_empty (pose + small de ref)
+      `[step1][${bigFrameIndex}:v]overlay=${bigCenterX}:${bigCenterY}:eof_action=pass[video_raw]`;
   } else if (layoutName === 'observador_full_left_empty' && poseIndex !== null && smallFrameIndex !== null) {
     const sfX = bigCenterX + BIG_FULL_W - SMALL_W - 50;
     const sfY = bigCenterY + 50;
@@ -269,9 +268,7 @@ export function generateCommand(
       `[step1][${bigFrameIndex}:v]overlay=${bigCenterX}:${bigCenterY}:eof_action=pass[step2];` +
       `[${mainRefIndex}:v]scale=${SMALL_W}:${SMALL_H}:force_original_aspect_ratio=decrease[ref_small];` +
       `[step2][ref_small]overlay=${sfX}:${sfY}:eof_action=pass[step3];` +
-      `[step3][${smallFrameIndex}:v]overlay=${sfX}:${sfY}:eof_action=pass[video]`;
-
-    // 4) observador_full_right_empty (pose + small de ref)
+      `[step3][${smallFrameIndex}:v]overlay=${sfX}:${sfY}:eof_action=pass[video_raw]`;
   } else if (layoutName === 'observador_full_right_empty' && poseIndex !== null && smallFrameIndex !== null) {
     const sfX = bigCenterX + 50;
     const sfY = bigCenterY + 50;
@@ -283,10 +280,12 @@ export function generateCommand(
       `[step1][${bigFrameIndex}:v]overlay=${bigCenterX}:${bigCenterY}:eof_action=pass[step2];` +
       `[${mainRefIndex}:v]scale=${SMALL_W}:${SMALL_H}:force_original_aspect_ratio=decrease[ref_small];` +
       `[step2][ref_small]overlay=${sfX}:${sfY}:eof_action=pass[step3];` +
-      `[step3][${smallFrameIndex}:v]overlay=${sfX}:${sfY}:eof_action=pass[video]`;
-
-    // 5) pointing_left + extras
-  } else if (layoutName === 'referencia_full_with_observer_pointing_left_and_extra' && poseIndex !== null && smallFrameIndex !== null) {
+      `[step3][${smallFrameIndex}:v]overlay=${sfX}:${sfY}:eof_action=pass[video_raw]`;
+  } else if (
+    layoutName === 'referencia_full_with_observer_pointing_left_and_extra' &&
+    poseIndex !== null &&
+    smallFrameIndex !== null
+  ) {
     const bigX = bigLeftX;
     const bigY = bigMedY;
     const smallX = smallRightX;
@@ -296,7 +295,6 @@ export function generateCommand(
     const ltMedX = bigX + LT_MARGIN_INSIDE;
     const ltMedY = bigY + FRAME_MED_H - LT_H - LT_MARGIN_INSIDE;
 
-    // Big frame medium (main ref)
     filter +=
       `[${mainRefIndex}:v]split[rm_a][rm_b];` +
       `[rm_a]scale=${BLUR_MED_W}:${BLUR_MED_H}:force_original_aspect_ratio=increase,boxblur=40:1,` +
@@ -307,7 +305,6 @@ export function generateCommand(
       `[rm_step1][ref_med_fg]overlay=${bigX}+(${FRAME_MED_W}-w)/2:${bigY}+(${FRAME_MED_H}-h)/2:eof_action=pass[step1];` +
       `[step1][${bigFrameIndex}:v]overlay=${bigX}:${bigY}:eof_action=pass[step2];`;
 
-    // Small top (pose)
     filter +=
       `[${poseIndex}:v]split[pose_a][pose_b];` +
       `[pose_a]scale=${SMALL_BLUR_W}:${SMALL_BLUR_H}:force_original_aspect_ratio=increase,boxblur=40:1,` +
@@ -317,13 +314,12 @@ export function generateCommand(
       `[step2][pose_bg]overlay=${smallX + 10}:${topY + 10}:eof_action=pass[step2_pose];` +
       `[step2_pose][pose_fg_small]overlay=${smallX + 20}:${topY + 20}:eof_action=pass[step3];` +
       `[step3][${smallFrameIndex}:v]overlay=${smallX}:${topY}:eof_action=pass[step4];` +
-      buildLowerThirdBlock("step4", "base_lt", ltMedX, ltMedY);
+      buildLowerThirdBlock('step4', 'base_lt', ltMedX, ltMedY);
 
-    // Small bottom (extras)
     if (extrasMeta.length === 0) {
-      filter += `;[base_lt][${smallFrameIndex}:v]overlay=${smallX}:${bottomY}:eof_action=pass[video]`;
+      filter += `;[base_lt][${smallFrameIndex}:v]overlay=${smallX}:${bottomY}:eof_action=pass[video_raw]`;
     } else {
-      filter += ";";
+      filter += ';';
 
       extrasMeta.forEach((e, i) => {
         const segDur = e.duration || IMAGE_SLIDE_DEFAULT_DURATION;
@@ -351,11 +347,13 @@ export function generateCommand(
         `${seqInputs}concat=n=${extrasMeta.length}:v=1:a=0[exSeq];` +
         `[exSeq]loop=loop=-1:size=${LOOP_MAX_SIZE}:start=0[exLoop];` +
         `[base_lt][exLoop]overlay=${smallX + 10}:${bottomY + 10}:eof_action=pass[with_extras];` +
-        `[with_extras][${smallFrameIndex}:v]overlay=${smallX}:${bottomY}:eof_action=pass[video]`;
+        `[with_extras][${smallFrameIndex}:v]overlay=${smallX}:${bottomY}:eof_action=pass[video_raw]`;
     }
-
-    // 6) pointing_right + extras
-  } else if (layoutName === 'referencia_full_with_observer_pointing_right_and_extra' && poseIndex !== null && smallFrameIndex !== null) {
+  } else if (
+    layoutName === 'referencia_full_with_observer_pointing_right_and_extra' &&
+    poseIndex !== null &&
+    smallFrameIndex !== null
+  ) {
     const bigX = bigRightX;
     const bigY = bigMedY;
     const smallX = smallLeftX;
@@ -365,7 +363,6 @@ export function generateCommand(
     const ltMedX = bigX + LT_MARGIN_INSIDE;
     const ltMedY = bigY + FRAME_MED_H - LT_H - LT_MARGIN_INSIDE;
 
-    // Big frame medium (main ref)
     filter +=
       `[${mainRefIndex}:v]split[rm2_a][rm2_b];` +
       `[rm2_a]scale=${BLUR_MED_W}:${BLUR_MED_H}:force_original_aspect_ratio=increase,boxblur=40:1,` +
@@ -376,7 +373,6 @@ export function generateCommand(
       `[rm2_step1][ref_med_fg2]overlay=${bigX}+(${FRAME_MED_W}-w)/2:${bigY}+(${FRAME_MED_H}-h)/2:eof_action=pass[step1];` +
       `[step1][${bigFrameIndex}:v]overlay=${bigX}:${bigY}:eof_action=pass[step2];`;
 
-    // Small top (pose)
     filter +=
       `[${poseIndex}:v]split[pose2_a][pose2_b];` +
       `[pose2_a]scale=${SMALL_BLUR_W}:${SMALL_BLUR_H}:force_original_aspect_ratio=increase,boxblur=40:1,` +
@@ -386,13 +382,12 @@ export function generateCommand(
       `[step2][pose2_bg]overlay=${smallX + 10}:${topY + 10}:eof_action=pass[step2_pose2];` +
       `[step2_pose2][pose2_fg_small]overlay=${smallX + 20}:${topY + 20}:eof_action=pass[step3];` +
       `[step3][${smallFrameIndex}:v]overlay=${smallX}:${topY}:eof_action=pass[step4];` +
-      buildLowerThirdBlock("step4", "base_lt2", ltMedX, ltMedY);
+      buildLowerThirdBlock('step4', 'base_lt2', ltMedX, ltMedY);
 
-    // Small bottom (extras)
     if (extrasMeta.length === 0) {
-      filter += `;[base_lt2][${smallFrameIndex}:v]overlay=${smallX}:${bottomY}:eof_action=pass[video]`;
+      filter += `;[base_lt2][${smallFrameIndex}:v]overlay=${smallX}:${bottomY}:eof_action=pass[video_raw]`;
     } else {
-      filter += ";";
+      filter += ';';
 
       extrasMeta.forEach((e, i) => {
         const segDur = e.duration || IMAGE_SLIDE_DEFAULT_DURATION;
@@ -420,10 +415,8 @@ export function generateCommand(
         `${seqInputs}concat=n=${extrasMeta.length}:v=1:a=0[ex2Seq];` +
         `[ex2Seq]loop=loop=-1:size=${LOOP_MAX_SIZE}:start=0[ex2Loop];` +
         `[base_lt2][ex2Loop]overlay=${smallX + 10}:${bottomY + 10}:eof_action=pass[with_extras2];` +
-        `[with_extras2][${smallFrameIndex}:v]overlay=${smallX}:${bottomY}:eof_action=pass[video]`;
+        `[with_extras2][${smallFrameIndex}:v]overlay=${smallX}:${bottomY}:eof_action=pass[video_raw]`;
     }
-
-    // Fallback: referencia_fullscreen (mesmo bloco do 1)
   } else {
     filter +=
       `[${mainRefIndex}:v]split[rf_a][rf_b];` +
@@ -433,8 +426,11 @@ export function generateCommand(
       `[bg][rf_bg]overlay=${blurFullX}:${blurFullY}:eof_action=pass[rf_step1];` +
       `[rf_step1][rf_fg]overlay=${fullFgX}:${fullFgY}:eof_action=pass[rf_step2];` +
       `[rf_step2][${bigFrameIndex}:v]overlay=${bigCenterX}:${bigCenterY}:eof_action=pass[base_vid];` +
-      buildLowerThirdBlock("base_vid", "video", ltFullX, ltFullY);
+      buildLowerThirdBlock('base_vid', 'video_raw', ltFullX, ltFullY);
   }
+
+  // ✅ Padroniza a saída da cena em CFR 29.97
+  filter += `;[video_raw]fps=${TARGET_FPS},settb=AVTB,setpts=PTS-STARTPTS[video]`;
 
   cmdParts.push(`-filter_complex "${filter}"`);
 
@@ -442,8 +438,8 @@ export function generateCommand(
   cmdParts.push(
     '-map "[video]"',
     `-map ${mainRefIndex}:a?`,
-    "-c:v libx264 -preset veryfast -crf 18 -pix_fmt yuv420p",
-    "-c:a aac"
+    '-c:v libx264 -preset veryfast -crf 18 -pix_fmt yuv420p',
+    '-c:a aac',
   );
 
   if (duration > 0) cmdParts.push(`-t ${durationStr}`);

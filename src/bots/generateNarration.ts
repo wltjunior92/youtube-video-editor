@@ -16,7 +16,7 @@ export async function generateNarration(speech: string, currentState: IGlobalSta
       "speed": 1,
       "vol": 1.9,
       "pitch": -1,
-      "emotion": "disgusted",
+      "emotion": "angry",
       "text_normalization": true
     },
     pronunciation_dict: {

@@ -6,15 +6,15 @@ export async function generateSubtitle(
   outputDir: string,
 ) {
   const CFG = {
-    playResX: 1080,
-    playResY: 1920,
+    playResX: 1920,
+    playResY: 1080,
     fontName: 'Montserrat ExtraBold',
     fontSize: 86,
     outline: 8,
     alignment: 2, // centro inferior
-    marginV: 500,
+    marginV: 100,
     windowSize: 4,
-    maxCharsPerBlock: 20,
+    maxCharsPerBlock: 40,
     minDurSec: 0.06,
     offsetSec: 0.0,
   };

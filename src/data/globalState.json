@@ -788,13 +788,18 @@
     "hasThumbnailHorizontal": true,
     "hasThumbnailVertical": true
   },
-  "message_id": 2677,
+  "message_id": 2709,
   "selectedMusic": {
     "short": [
       {
-        "name": "tension_6.mp3",
-        "duration": 290.179773,
-        "path": "D:\\projetos\\bot-estourou-noticias\\global\\musicas\\tension_6.mp3"
+        "name": "tension_3.mp3",
+        "duration": 277.292698,
+        "path": "D:\\projetos\\bot-estourou-noticias\\global\\musicas\\tension_3.mp3"
+      },
+      {
+        "name": "tension_5.mp3",
+        "duration": 149.977687,
+        "path": "D:\\projetos\\bot-estourou-noticias\\global\\musicas\\tension_5.mp3"
       }
     ]
   }
